@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import React, { Component } from 'react';
+import { View, Image, CheckBox, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 class Inputs extends Component {
@@ -32,13 +32,17 @@ class Inputs extends Component {
                autoCapitalize = "none"
                secureTextEntry = {true}
                onChangeText = {this.handlePassword}/>
+
+            <CheckBox style = {styles.checkbox}
+
+            />
             
             <TouchableOpacity
                style = {styles.submitButton}
                onPress = {
                   () => this.login(this.state.email, this.state.password)
                }>
-               <Text style = {styles.submitButtonText}> Sign in </Text>
+               <Text style = {styles.submitButtonText}> Sign In </Text>
             </TouchableOpacity>
          </View>
       )
@@ -48,14 +52,15 @@ export default Inputs
 
 const styles = StyleSheet.create({
    container: {
-      paddingTop: 2,    
+      paddingTop: 100,    
       height: '100%',
-      justifyContent: 'center',
+      //justifyContent: 'center',
       alignItems: 'center'
    },
    logo: {
-      width: 303,
-      height: 207,
+      marginBottom: 50,
+      width: 260,
+      height: 180,
    },
    input: {
       margin: 15,
@@ -66,6 +71,10 @@ const styles = StyleSheet.create({
       padding: 10,
       borderRadius: 5,
       //placeholderStyle: {style: 'italic'},
+   },
+   checkbox: {
+      borderColor: 'black',
+      color: '#7a42f4',
    },
    submitButton: {
       backgroundColor: '#7a42f4',
@@ -80,6 +89,8 @@ const styles = StyleSheet.create({
    },
    submitButtonText:{
       color: 'white',
-      fontWeight: 'bold'
+      fontSize: 20,
+      fontWeight: 'bold',
+      fontFamily: 'arial'
    }
 })
