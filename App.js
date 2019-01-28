@@ -1,96 +1,109 @@
 import React, { Component } from 'react';
-import { View, Image, CheckBox, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Image, CheckBox, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import styles from './styles'
 
-class Inputs extends Component {
-   state = {
-      email: '',
-      password: ''
-   }
-   handleEmail = (text) => {
-      this.setState({ email: text })
-   }
-   handlePassword = (password) => {
-      this.setState({ password: password })
-   }
-   login = (email, pass) => {
-      alert('Login Success')
-   }
+export default class techTest extends Component {
+  constructor(props){
+    super(props);
+      this.state = {
+        TextEmail: '',
+        TextPassword: '',
+        ErrorStatus1: 0,
+        ErrorStatus2: 0,
+      }
+  }
+  handelEmail = (TextEmail) =>{
+    this.setState({
+      TextEmail: TextEmail
+    });
+  }
+  handelPassword = (TextPassword) =>{
+    this.setState({
+      TextPassword: TextPassword
+    });
+  }
+
+  buttonClickListener = () =>{
+      const { TextEmail }  = this.state ;
+      if (TextEmail == ""){
+        this.setState({ErrorStatus1 : 1}) ;
+      }else{
+        this.setState({ErrorStatus1 : 0}) ;
+          if (TextEmail.length < 6 || TextEmail.length > 10){
+            this.setState({ErrorStatus1 : 2}) ;
+           }else{
+            this.setState({ErrorStatus1 : 0}) ;
+          }
+      }
+      const { TextPassword } = this.state ;
+      if (TextPassword == ""){
+        this.setState({ErrorStatus2 : 1}) ;
+      }else{
+        this.setState({ErrorStatus2 : 0}) ;
+          if (TextPassword.length < 6 || TextPassword.length > 10){
+            this.setState({ErrorStatus2 : 2}) ;
+          }else{
+            this.setState({ErrorStatus2 : 0}) ;
+          }
+      }
+      //this.setState({submitted: true})
+  }
+
    render() {
       return (
          <View style = {styles.container}>
             <Image style = {styles.logo}
             source={require('./Logo.png')} />
 
+            <Text>Email</Text>
+
             <TextInput style = {styles.input}
                placeholder = "Input email address"
                autoCapitalize = "none"
-               onChangeText = {this.handleEmail}/>
-            
+               //onChangeText={this.handelEmail}
+               onChangeText={this.handelEmail}
+               />
+
+
+             { this.state.ErrorStatus1 == 1? (
+             <Text style = {styles.validation}>
+                Input must be filled
+             </Text>
+             ) : this.state.ErrorStatus1 == 2? (
+             <Text style = {styles.validation}>
+                not correct format for email address
+             </Text>  
+             ): null
+              }
+
+            <Text>Password</Text>
+
             <TextInput style = {styles.input}
                placeholder = "Input password"
                autoCapitalize = "none"
                secureTextEntry = {true}
-               onChangeText = {this.handlePassword}/>
+               onChangeText={this.handelPassword} />
 
-            <CheckBox style = {styles.checkbox}
+            { this.state.ErrorStatus2 == 1? (
+             <Text style = {styles.validation}>
+                Input must be filled
+             </Text> ) : this.state.ErrorStatus2 == 2? (
+             <Text style = {styles.validation}>
+                Password length must be 6-12 characters
+             </Text>
 
-            />
+             ): null //no error
+              }
+
+            <CheckBox style = {styles.checkbox} />
             
             <TouchableOpacity
                style = {styles.submitButton}
-               onPress = {
-                  () => this.login(this.state.email, this.state.password)
-               }>
+               onPress={this.buttonClickListener}>
                <Text style = {styles.submitButtonText}> Sign In </Text>
             </TouchableOpacity>
          </View>
-      )
+      );
    }
 }
-export default Inputs
-
-const styles = StyleSheet.create({
-   container: {
-      paddingTop: 100,    
-      height: '100%',
-      //justifyContent: 'center',
-      alignItems: 'center'
-   },
-   logo: {
-      marginBottom: 50,
-      width: 260,
-      height: 180,
-   },
-   input: {
-      margin: 15,
-      height: 40,
-      width: '90%',
-      borderColor: '#7a42f4',
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 5,
-      //placeholderStyle: {style: 'italic'},
-   },
-   checkbox: {
-      borderColor: 'black',
-      color: '#7a42f4',
-   },
-   submitButton: {
-      backgroundColor: '#7a42f4',
-      padding: 10,
-      margin: 15,
-      height: 40,
-      width: '90%',
-      alignText: 'center',
-      borderRadius: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-   submitButtonText:{
-      color: 'white',
-      fontSize: 20,
-      fontWeight: 'bold',
-      fontFamily: 'arial'
-   }
-})
